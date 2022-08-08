@@ -6,7 +6,7 @@
 #include<unistd.h>
 
 #define SHM_KEY 100
-#define SEM_KEY 200
+#define SEM_KEY 100
 using namespace std;
 
 // struct sembuf {
@@ -116,6 +116,8 @@ void processWrite(){
 
 int main(){
     pid_t pid;
+    cout <<"val of IPC_CREAT:" << IPC_CREAT <<endl;
+    cout <<"val of IPC_EXCL:" << IPC_EXCL <<endl;
     cout<<"main process id:"<<getpid()<<endl;
     if( ( pid = fork() ) == 0){ //in child process
         processWrite();
