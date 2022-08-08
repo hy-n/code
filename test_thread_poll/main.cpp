@@ -11,7 +11,7 @@ int main() {
     ThreadPool poll(5);
     cout << "after create thread pool~" << endl;
     //1. test for 5 threads with 1 task
-    for (int i = 0; i < 50;i++){
+    for (int i = 0; i < 500;i++){
         poll.push2TaskQueue(&func);
     }
       
