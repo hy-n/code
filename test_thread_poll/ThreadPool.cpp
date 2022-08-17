@@ -1,17 +1,13 @@
 #include "ThreadPool.h"
 
-
+#include <future>
 #include "unistd.h"
 #include <iostream>
 #include <sstream>
 #include <stdlib.h>
+#include <functional>
 
 using namespace std;
-#define MIN_THREAD_POOL_SIZE 2
-#define MAX_THREAD_POOL_SIZE 16
-
-#define IF_OPEN_AUTO_DEL_THREADS 1
-#define IF_OPEN_AUTO_ADD_THREADS 1
 
 ThreadPool::ThreadPool(int size) : _thread_poll_size(size) {
   if_start = true;
@@ -103,7 +99,7 @@ void ThreadPool::push2TaskQueue(TaskType task){
       //double thread num if task_count > 5*thread_count
       if(_taskQueue.size() > 5*_threads.size() && _threads.size() < MAX_THREAD_POOL_SIZE){
         
-        auto t = new std::thread(std::bind(&ThreadPool::getTask, this));
+        auto t = new std::thread(bind(&ThreadPool::getTask, this));
         std::stringstream sstream;
         sstream << t->get_id();
         cout << "add thread num, current thread size:" << _threads.size() << " new thread id:" << sstream.str() << endl;
@@ -111,6 +107,8 @@ void ThreadPool::push2TaskQueue(TaskType task){
       }
     }
 }
+
+
 
 void ThreadPool::start(){
     for(int i=0; i<_thread_poll_size; i++){
